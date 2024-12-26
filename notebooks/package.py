@@ -61,8 +61,9 @@ columns_to_boxcox_transform = [
 
 def clean_test_data(
         dataset: pd.DataFrame,
-        standard_scaler: StandardScaler) -> pd.DataFrame:
-    # Drop unnecessary columns, 
+        standard_scaler: StandardScaler,
+        corr_lmbda: list) -> pd.DataFrame:
+    # Drop unnecessary columns
     dataset = dataset.drop(columns=columns_to_drop)
     
     # Remove the characters from the column names
@@ -103,6 +104,6 @@ def clean_test_data(
 
     # Apply Box-Cox transformation on right-skewed columns
     for col in columns_to_boxcox_transform:
-        dataset[col], lmbda = boxcox(dataset[col] + 1)
+        dataset[col] = boxcox(dataset[col] + 1, lmbda=corr_lmbda[col])
     
     return dataset
