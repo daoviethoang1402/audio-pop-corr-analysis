@@ -11,6 +11,21 @@ from copy import deepcopy
 import datetime
 
 def clean_test_set(test_set, standard_scaler, corr_lambda):
+    """
+    Cleans the test set and applies transformations such as encoding, scaling, and filtering.
+
+    Parameters:
+    test_set (DataFrame): The test dataset to clean.
+    standard_scaler (StandardScaler): The fitted scaler for standard scaling.
+    corr_lambda (dict): Dictionary of Box-Cox lambda values for each column.
+    year_filter (int, optional): Minimum release year to filter the dataset.
+
+    Returns:
+    DataFrame: The cleaned test dataset.
+    """
+    # Filter by release year if year_filter is provided
+    test_set = test_set[test_set['released year'] <= 2020]
+
     # Drop unimportant columns
     columns_to_drop = [
         'in_spotify_playlists',
@@ -98,6 +113,7 @@ def clean_test_set(test_set, standard_scaler, corr_lambda):
         ])
 
     return test_set
+
 
 def plot_histogram_and_boxplot(data, column):
     """
