@@ -24,7 +24,7 @@ def clean_test_set(test_set, standard_scaler, corr_lambda):
     DataFrame: The cleaned test dataset.
     """
     # Filter by release year if year_filter is provided
-    test_set = test_set[test_set['released year'] <= 2020]
+    test_set = test_set[test_set['released_year'] <= 2020]
 
     # Drop unimportant columns
     columns_to_drop = [
@@ -107,10 +107,7 @@ def clean_test_set(test_set, standard_scaler, corr_lambda):
         test_set[col] = boxcox(test_set[col] + 1, lmbda=corr_lambda[col])
 
     # Drop unnecessary columns
-    test_set = test_set.drop(columns=[
-        'bpm', 'energy percentage', 'acousticness percentage', 'liveness percentage', 
-        'released year', 'mode', 'key sine'
-        ])
+    test_set = test_set.drop(columns=['acousticness percentage', 'liveness percentage', 'released year', 'mode', 'key sine'])
 
     return test_set
 
